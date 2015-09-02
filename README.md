@@ -1,9 +1,9 @@
 # Gum-Gum-Interview-Javascript-Test
 Javascript Interview test for GumGum.com
 
-1. [Starting Quiz](./quiz)
-2. [DOM and more](./polyfill)
-3. [TDD and OOJS](./tdd)
-4. [BOM! Iframes!](./iframe)
-5. [Embed Code](./embed)
-6. [Out of this DOM](./comm)
+1. [Starting Quiz](./quiz.html)
+2. [DOM and more](./polyfill.html)
+3. [TDD and OOJS](./tdd.html)
+4. [BOM! Iframes!](./iframe.html)
+5. [Embed Code](./embed.html)
+6. [Out of this DOM](./comm.html)
