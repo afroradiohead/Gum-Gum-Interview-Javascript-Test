@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GumGum - JavaScript Engineering Skill Test - OO && TDD</title>
+
+    <style>
+        #Application #RobotList .robot {display:inline-block; border:1px solid silver; text-align:center;}
+        #Application #RobotList .robot img{width:100px; display:inline-block;}
+        #Application #RobotList .robot.explode {
+            position:absolute;
+        }
+        #Application #RobotList .robot .greeting{
+            display:block;
+        }
+
+        .comingSoon{
+            color:blue;
+        }
+    </style>
+</head>
+<body>
+<h1>Test Driven Development</h1>
+<ol>
+    <li>Write a small Object-Oriented <!--or prototype-oriented--> JS program that can create Robots with some nice greetings and interactions, three or four actions are ok.</li>
+    <li>Draw the robots in HTML, better if we can see their interactions.</li>
+    <li>Write some tests for all these robots. At least 5 tests.</li>
+    <li>Let us know how and what would you use to test their visual representations.</li>
+    <li>Let us know how would you automate all these test.</li>
+</ol>
+<h2>Rules</h2>
+<ul>
+    <li>3rd party libs for TDD are ok, let us know how you decided what to use.</li>
+    <li>3rd party libs for drawing are ok too.</li>
+</ul>
+<h2>Bonus</h2>
+<ul>
+    <li>Write a brief explanation of your OO pattern.</li>
+    <li>Canvas</li>
+</ul>
+
+<hr />
+
+<div id="Application">
+    <button id="RobotCreatorButton">Create A Robot</button>
+    <button>Explode All Robots</button>
+    <div id="RobotList">
+
+    </div>
+
+    <div class="comingSoon">
+        Coming soon...
+        <ul>
+            <li>Making the robot explode on click</li>
+            <li>Making the explode button explode all robots</li>
+        </ul>
+    </div>
+</div>
+
+
+<script>
+    function Robot(){
+        var randomGreetingIndex = Math.floor(Math.random() * Robot.GREETING_LIST.length);
+        var greeting = Robot.GREETING_LIST[randomGreetingIndex];
+        var element = document.createElement("div");
+        var imageElement = document.createElement("img");
+        var greetingElement = document.createElement("p");
+
+        imageElement.src = "robot.png";
+        greetingElement.innerText = greeting;
+        greetingElement.className = 'greeting';
+        element.className = "robot";
+        element.appendChild(greetingElement);
+        element.appendChild(imageElement);
+
+        element.addEventListener("mouseenter", this.onMouseEnter.bind(this));
+
+        this.element = element;
+    }
+
+    Robot.prototype.onMouseEnter = function(){
+        var element = this.element;
+
+//        element.className += " explode";
+
+        element.removeEventListener("mouseenter", this.onMouseEnter.bind(this));
+    };
+
+    Robot.GREETING_LIST = [
+        "Bonjour",
+        "Hola",
+        "Bon Giorno",
+        "Guten Tag",
+        "Ni hao",
+        "Dia Duit",
+        "Namaste",
+        "Zdravstvuite",
+        "Dobry rano",
+        "Ohayou gozaimasu",
+        "Shalom",
+        "Marhabah",
+        "Hej",
+        "Goedendag",
+        "Jambo",
+        "Chao",
+        "Ahn nyeong ha se yo",
+        "Bom dia",
+        "HyvÃ¤Ã¤ pÃ¤ivÃ¤Ã¤"
+    ];
+
+    function Application(){
+        var robotListElement = document.getElementById("RobotList");
+
+        document.getElementById("RobotCreatorButton").addEventListener("click", this.onClick_RobotCreatorButton.bind(this));
+
+        this.robotListElement = robotListElement;
+    }
+
+    Application.prototype.onClick_RobotCreatorButton = function(){
+        var robot = new Robot();
+        var robotListElement = this.robotListElement;
+
+        robotListElement.appendChild(robot.element);
+    };
+
+    var app = new Application();
+</script>
+</body>
+</html>

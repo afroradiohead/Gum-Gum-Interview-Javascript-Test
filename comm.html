@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GumGum - JavaScript Engineering Skill Test - Communication</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <style>
+        #thumbnail {display:inline-block}
+    </style>
+</head>
+<body>
+<h1>Cross-Domain communication on the browser</h1>
+<p>Please create an inline script that will consume GitHub api to render something like this:</p>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 text-center" >
+            <img id="thumbnail" src="http://placehold.it/250x250&text=Picture">
+            <br><h3  id="name">My Name</h3>
+        </div>
+        <div class="col-md-6">
+            <div class="text-center">
+                <h4>Bio</h4>
+                <span id="bio">My Bio ... blablabla</span>
+            </div>
+
+            <hr/>
+
+            <p>My Public Repos: <span id="repo-count">100</span></p>
+            <p>My Followers: <span id="follower-count">10000</span></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-3">
+            <form id="github-user-form" action="#">
+                <div class="input-group">
+                    <input id="githut-user-input" type="text" placeholder="Search a github user" class="form-control"/>
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Find</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<h2>Rules</h2>
+<ul>
+    <li>You can use all the CSS you want, but your JS code needs to be inline in the same page.</li>
+    <li>Obviously, no tables and and no ugly inline align/border attributes.</li>
+    <li>In this one you can use 3rd party libs but not for communication.</li>
+</ul>
+<h2>Bonuses</h2>
+<ul>
+    <li>Surprise us with a nice design!</li>
+    <li>No jQuery.</li>
+    <li>No 3rd party libs.</li>
+    <li>Use a new/trendy MVC-like lib for this.</li>
+</ul>
+
+<script>
+
+    function GithubPage(){
+        var githubUserXhr = new XMLHttpRequest();
+
+        document.getElementById("github-user-form").addEventListener("submit", this.onSubmit_GithubUserForm.bind(this));
+        githubUserXhr.onreadystatechange = this.onReadyStateChange_GithubUser.bind(this);
+
+        this.githubUserXhr = githubUserXhr;
+        this.thumbnailElement = document.getElementById("thumbnail");
+        this.nameElement = document.getElementById("name");
+        this.bioElement = document.getElementById("bio");
+        this.repoCountElement = document.getElementById("repo-count");
+        this.followerCountElement = document.getElementById("follower-count");
+    }
+
+    GithubPage.prototype.onSubmit_GithubUserForm = function(e){
+        e.preventDefault();
+        var githubUserInputElement = document.getElementById("githut-user-input")
+        var username = githubUserInputElement.value;
+
+        this.githubUserXhr.abort();
+        this.githubUserXhr.open('get', 'https://api.github.com/users/'+username);
+        this.githubUserXhr.send();
+    };
+
+    GithubPage.prototype.onReadyStateChange_GithubUser = function(e){
+        var request = e.target;
+
+        if(request.readyState == 4){
+            if(request.status == 200){
+                var githubUserInfo = JSON.parse(request.responseText);
+
+                this.thumbnailElement.src = "https://avatars2.githubusercontent.com/u/"+githubUserInfo.id;
+                this.nameElement.innerText = githubUserInfo.name;
+                this.bioElement.innerText = githubUserInfo.bio;
+                this.repoCountElement.innerText = githubUserInfo.public_repos;
+                this.followerCountElement.innerText = githubUserInfo.followers;
+            }else{
+                alert("Couldn't find that github user");
+            }
+
+        }
+    };
+
+    new GithubPage();
+</script>
+</body>
+</html>

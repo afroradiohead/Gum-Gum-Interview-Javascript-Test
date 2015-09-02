@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GumGum - JavaScript Engineering Skill Test - Embedded JS code</title>
+    <style>
+        .censor{background-color:red; position:fixed; }
+    </style>
+</head>
+<body>
+<h1>Embeddable JavaScript</h1>
+<p>You're asked to create a censoring bookmarklet, with the following features:</p>
+<ul>
+    <li>It will detect all the images in a webpage and will place a "censoring square" (a red square will suffice) over them regardless of the image styling.</li>
+    <li>It will display an always-visible button to remove all the squares.</li>
+    <li>When used on this page, three squares will show up.</li>
+</ul>
+<div style="text-align:center">
+    <img src="http://placehold.it/350x150">
+</div>
+<div>
+    <img src="http://placehold.it/250x250">
+</div>
+<div>
+    <img src="http://placehold.it/250x250" style="position:absolute;right:0;bottom:0">
+</div>
+<h2>Rules</h2>
+<ul>
+    <li>No jQuery</li>
+</ul>
+<h2>Bonuses</h2>
+<ul>
+    <li>Doesn't clutter the global scope/namespace.</li>
+    <li>Fail gracefully with good error handling.</li>
+    <li>Responds well to browser resize.</li>
+    <li>It works with dynamically added images.</li>
+    <li>It works on all browsers, back to IE7 and with mobile browsers too.</li>
+</ul>
+
+
+<script>
+    /*==Instructions==*/
+    //when the page loads
+        //all images should be overlayed with a red square
+        //a red square should show a "always-visible" button to remove  the square
+    //when the page resizes
+        //the censors should re-position itself over the images
+
+    /*==Censor==*/
+    function Censor(imageElement){
+        var element = document.createElement("div");
+        var removeButton = document.createElement("button");
+
+        window.addEventListener("resize", this.onResize_Window.bind(this));
+        window.addEventListener("scroll", this.onScroll_Window.bind(this));
+        imageElement.addEventListener("load", this.onLoad_Image.bind(this));
+        removeButton.addEventListener("click", this.onClick_RemoveButton.bind(this));
+
+        element.className = "censor";
+        removeButton.className = "remove";
+        removeButton.innerText = "Remove Censor";
+        element.appendChild(removeButton);
+
+        this.imageElement = imageElement;
+        this.element = element;
+        this.removeButton = removeButton;
+    }
+
+    Censor.prototype.onScroll_Window = function(){
+        var element = this.element;
+        var imagePosition = this.imageElement.getBoundingClientRect();
+
+        element.style.left = imagePosition.left + "px";
+        element.style.top = imagePosition.top + "px";
+    };
+
+    Censor.prototype.onResize_Window = function(){
+        var element = this.element;
+        var imagePosition = this.imageElement.getBoundingClientRect();
+
+        element.style.left = imagePosition.left + "px";
+        element.style.top = imagePosition.top + "px";
+    };
+
+    Censor.prototype.onLoad_Image = function(){
+        var element = this.element;
+        var imageElement = this.imageElement;
+        var imagePosition = imageElement.getBoundingClientRect();
+
+        element.style.width = imageElement.clientWidth + "px";
+        element.style.height = imageElement.clientHeight + "px";
+        element.style.left = imagePosition.left + "px";
+        element.style.top = imagePosition.top + "px";
+    };
+
+    Censor.prototype.onClick_RemoveButton = function(){
+        this.element.remove();
+    };
+
+
+    /*==Page==*/
+    function EmbedPage(){
+        var imageElementList = Array.prototype.slice.call(document.getElementsByTagName("img"));
+        var bodyElement = document.getElementsByTagName("body")[0];
+        var censorList = imageElementList.map(function(imageElement){
+            var censor = new Censor(imageElement);
+            bodyElement.appendChild(censor.element);
+
+            return censor;
+        });
+
+        this.censorList = censorList;
+    }
+
+
+    new EmbedPage();
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GumGum - JavaScript Engineering Skill Test - Iframes</title>
+</head>
+<body>
+<h1>About Iframes</h1>
+<p>One of your clients requires that everything he types and submits into a form is transfered into an iframe, to avoid the NSA.</p>
+<form id="iframe-submit-form" action="#">
+    <input id="iframe-submit-form-input" type="text" placeholder="Send me to the iframe!">
+    <input type="submit" id="iframe-submit-button">
+</form>
+<iframe id="safe-iframe" src="about:blank" frameborder="1" width="600" height="100"></iframe>
+<h2>Rules</h2>
+<ul>
+    <li>No server side processing</li>
+    <li>No jQuery</li>
+</ul>
+<h2>Bonuses</h2>
+<ul>
+    <li>Explain your technique</li>
+    <li>No extra files</li>
+</ul>
+
+
+<script>
+    var safeIframe = document.getElementById('safe-iframe');
+    var iframeSubmitFormInputElement = document.getElementById('iframe-submit-form-input');
+
+    function onSubmit_IframeSubmitForm(e){
+        var valueElement = document.createElement("p");
+        valueElement.innerText = iframeSubmitFormInputElement.value;
+
+        safeIframe.contentWindow.document.write(valueElement.outerHTML);
+        iframeSubmitFormInputElement.value = "";
+        safeIframe.contentWindow.scrollTo(0,safeIframe.contentWindow.document.body.scrollHeight);
+    }
+
+    document.getElementById("iframe-submit-form").addEventListener("submit", onSubmit_IframeSubmitForm);
+
+
+    //My Thought process:
+    //When form is submitted
+        //the iframe should show the value in the input
+        //the input should reset
+        //the iframe should sccroll to the bottom
+</script>
+
+</body>
+</html>

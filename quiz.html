@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GumGum - JavaScript Engineering Skill Test - Quiz</title>
+</head>
+<body>
+<h1>Quiz</h1>
+<ol>
+    <li>Name three people that you follow, admire or recognize from the JS field
+        <ul>
+            <li>Douglas Crockford</li>
+            <li>ljharb in the #javascript irc</li>
+            <li>robdubya in the #javascript irc</li>
+        </ul>
+    </li>
+    <li>What's the name of the standard backing JS implementations?
+        <ul>
+            <li>ECMA</li>
+        </ul>
+    </li>
+    <li>Name three major (old, current or new) JS implementations.
+        <ul>
+            <li>V8, Spidermonkey, JScript</li>
+        </ul>
+    </li>
+    <li>Name four websites that you use constanly while web developing.
+        <ul>
+            <li>Freenode #javascript irc, google, stackoverflow, github </li>
+        </ul>
+    </li>
+    <li>What is minification and why we should use it? Do you use it? How?
+        <ul>
+            <li>It compressses a bunch of characters to fit in a tight space without changing functionality</li>
+            <li>It increases loading times by decreasing file size</li>
+        </ul>
+    </li>
+    <li>What is the DOM? And the BOM? What's the difference? Give us a one-line example of using each one.</li>
+    <ul>
+        <li>DOM: Document Object Model - Webpage Objects (html elements) i.e. document.getElementById("id")</li>
+        <li>BOM: Browser Object Model - Browser Objects (window, navigator, history, js objects) i.e. window.location.reload()</li>
+    </ul>
+    <li>Why is HTML5shiv important on some browsers?
+        <ul>
+            <li>Browsers that don't support html5 (internet explorer 8-) need this in order to allow devs to work with html5 properly</li>
+        </ul>
+    </li>
+    <li>How many ways to communicate between two different domain pages do you know? (client-side, of course)
+        <ul>
+            <li>If a page opened another page it has access to the window.opener</li>
+            <li>An ajax request to another domain if the domain's says it's okay in header</li>
+            <li>An ajax request to your own backend script that crawls another domain</li>
+        </ul>
+    </li>
+    <li>Is <em>document.write</em> good or bad? When its good? When its bad?
+        <ul>
+            <li>Bad: Can clear the document if it happens after the page loads</li>
+            <li>Good: Writing things into an iframe</li>
+        </ul>
+    </li>
+    <li>What do you understand for self-invoking function? Do you use them? Why?
+        <ul>
+            <li>It runs immediately after created. Best used in to calls timers as setInterval has a delay</li>
+            <li>I think I used it in a game once, but I know I've used it while making jquery plugins.</li>
+        </ul>
+    </li>
+    <li>Do you use JSLint or JSHint? What about strict mode? Why?
+        <ul>
+            <li>I don't use JSLint or JShint or strict mode. I haven't had the need to since I try to avoid bad practices, but I would consider using it while working with other devs.</li>
+        </ul>
+    </li>
+    <li>What do you know about memory leaks?
+        <ul>
+            <li>Google Chrome lets me snapshot the heap and find potential memory issues. I haven't worked on heavy enough web application to find it worthwhile to dive super deep yet.</li>
+        </ul>
+    </li>
+    <li>Have you heard of the "Repainting" problem on the browser? Tell us about it.
+        <ul>
+            <li>I've ran into repainting performance issues with box-shadows & box-radiuses.</li>
+            <li>Basically everytime the page looks different (from scrolling or dom manipulation) the browser repaints, which if seriously slow will mess up the ux.</li>
+        </ul>
+    </li>
+    <li>Write the best implementation of "blackBox" you can think of:
+<pre>
+    blackBox('GumGum') === 'GumGum'
+    blackBox('GumGum','Test') === 'GumGum-Test:GumGum-Test'
+    blackBox('GumGum','Test','Join Us') === "GumGum-Test-Join Us!:GumGum-Test-Join Us!:GumGum-Test-Join Us!"
+</pre>
+
+<pre>
+    console.log(blackBox('GumGum') === 'GumGum');
+    console.log(blackBox('GumGum','Test') === 'GumGum-Test:GumGum-Test');
+    console.log(blackBox('GumGum','Test','Join Us') === "GumGum-Test-Join Us!:GumGum-Test-Join Us!:GumGum-Test-Join Us!");
+
+    function blackBox(){
+        var argumentList = Array.prototype.slice.call(arguments);
+        var argumentText = argumentList.join("-");
+        argumentText = argumentList.length == 3 ? argumentText + "!" : argumentText;
+
+        return argumentList.map(function(){
+            return argumentText;
+        }).join(":");
+    }
+</pre>
+    </li>
+    <li>What are you daily basis tools when coding and releasing your code?
+        <ul>
+            <li>At pricegrabber we had a qa team that handled releasing our code to a qa branch and it would run against regression tests. We also had a ticketing system to log any bugs</li>
+            <li>The plan is to use the tools required for continous integration cycle. Ocassionally I would write unit tests but more importantly acceptance tests before each push.</li>
+        </ul>
+    </li>
+</ol>
+<h2>Extras</h2>
+<ol>
+    <li>How would you deploy directly from your git repo?
+        <ul>
+            <li>Creating hooks. However lately I've been hearing it's bad to have any reference to git on the live instance because of security</li>
+        </ul>
+    </li>
+    <li>What does 664 means to you and your files?
+        <ul>
+            <li>Owner - Read/Write, Group - Read/Write, Public - Read</li>
+        </ul>
+    </li>
+</ol>
+</body>
+</html>
+
+
+<script style="text/javascript">
+    console.log(blackBox('GumGum') === 'GumGum');
+    console.log(blackBox('GumGum','Test') === 'GumGum-Test:GumGum-Test');
+    console.log(blackBox('GumGum','Test','Join Us') === "GumGum-Test-Join Us!:GumGum-Test-Join Us!:GumGum-Test-Join Us!");
+
+    function blackBox(){
+        var argumentList = Array.prototype.slice.call(arguments);
+        var argumentText = argumentList.join("-");
+        argumentText = argumentList.length == 3 ? argumentText + "!" : argumentText;
+
+        return argumentList.map(function(){
+            return argumentText;
+        }).join(":");
+    }
+</script>
